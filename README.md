@@ -1,4 +1,5 @@
 # smart-contrat
+
 # TRC-20 DynamicStable & Vault System
 
 Un système complet de stablecoin sur la blockchain TRON avec mécanismes de stabilisation dynamique, oracle de prix et gestion de trésorerie.
@@ -14,6 +15,7 @@ Ce projet implémente une solution de stablecoin indexé sur l'USD pour la block
 ## Fonctionnalités principales
 
 ### DynamicStable (Token TRC-20)
+
 - Token TRC-20 standard avec gestion du nom, symbole et décimales
 - Mécanismes de mint/burn contrôlés par le Vault et le propriétaire
 - Plafond d'approvisionnement maximum configurable
@@ -21,6 +23,7 @@ Ce projet implémente une solution de stablecoin indexé sur l'USD pour la block
 - Transfert de propriété sécurisé en deux étapes
 
 ### Vault (Gestion de liquidité)
+
 - Achat de tokens avec TRX ou USDT
 - Vente de tokens contre TRX ou USDT
 - Frais d'achat et de vente configurables (jusqu'à 5%)
@@ -30,6 +33,7 @@ Ce projet implémente une solution de stablecoin indexé sur l'USD pour la block
 - Prix TRX/USD configurable avec protection contre les manipulations
 
 ### PriceOracle (Oracle de prix)
+
 - Mise à jour du prix TRX/USD dans le Vault
 - Système d'autorisations multi-updaters
 - Vérifications de déviation maximale des prix
@@ -57,16 +61,18 @@ Plusieurs mécanismes de sécurité sont implémentés :
 ### Étapes de déploiement
 
 1. Déployer le contrat DynamicStable
+
    ```javascript
    const token = await DynamicStable.deploy(
-     "NomDuToken", 
-     "SYMBOLE", 
+     "NomDuToken",
+     "SYMBOLE",
      6, // décimales, généralement 6 pour les stablecoins
      1000000000000 // approvisionnement maximum
    );
    ```
 
 2. Déployer le contrat Vault avec l'adresse du token
+
    ```javascript
    const vault = await Vault.deploy(
      token.address,
@@ -76,6 +82,7 @@ Plusieurs mécanismes de sécurité sont implémentés :
    ```
 
 3. Déployer le contrat PriceOracle avec l'adresse du Vault
+
    ```javascript
    const oracle = await PriceOracle.deploy(
      vault.address,
@@ -93,6 +100,7 @@ Plusieurs mécanismes de sécurité sont implémentés :
 ### Pour les utilisateurs
 
 #### Achat de tokens
+
 ```javascript
 // Avec TRX
 await vault.buyTokenWithTRX({ value: 1000000000 }); // 1000 TRX
@@ -103,6 +111,7 @@ await vault.buyTokenWithUSDT(30000000); // Acheter avec 30 USDT
 ```
 
 #### Vente de tokens
+
 ```javascript
 // Approuver le Vault à dépenser vos tokens
 await token.approve(vault.address, 30000000); // Approuver 30 tokens
@@ -117,6 +126,7 @@ await vault.sellTokenForUSDT(30000000);
 ### Pour les administrateurs
 
 #### Mise à jour des prix
+
 ```javascript
 // Via l'Oracle (méthode recommandée)
 await oracle.updatePrice(3100000); // 0.031 USD
@@ -126,6 +136,7 @@ await oracle.forceUpdatePrice(3100000); // 0.031 USD
 ```
 
 #### Gestion des frais
+
 ```javascript
 // Définir de nouveaux frais (en points de base, 100 = 1%)
 await vault.setBuyFee(50); // 0.5%
@@ -153,3 +164,15 @@ Le système émet les événements suivants pour le suivi des opérations :
 ## Licence
 
 SPDX-License-Identifier: MIT
+
+# Créer une nouvelle application React
+
+npx create-react-app tron-stabletoken-frontend
+
+# Naviguer vers le répertoire du projet
+
+cd tron-stabletoken-frontend
+
+# Installer TronWeb et les autres dépendances
+
+npm install tronweb @tronweb3/tronwallet-adapter-react-ui @tronweb3/tronwallet-adapter-walletconnect ethers react-toastify
